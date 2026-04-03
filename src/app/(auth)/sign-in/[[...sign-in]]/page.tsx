@@ -23,6 +23,7 @@ export default function SignInPage() {
           Client Portal
         </p>
       </div>
+      <div style={{ width: "100%", maxWidth: "400px", margin: "auto" }}>
       <SignIn
         appearance={{
           variables: {
@@ -45,12 +46,11 @@ export default function SignInPage() {
               flexDirection: "column",
               alignItems: "stretch",
             },
-            socialButtonsBlockButton: {
-              width: "100%",
-            },
+            socialButtonsBlockButton: { width: "100%", maxWidth: "100%" },
           },
         }}
       />
+      </div>
     </>
   );
 }
