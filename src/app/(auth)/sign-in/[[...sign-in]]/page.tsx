@@ -3,6 +3,7 @@ import { SignIn } from "@clerk/nextjs";
 export default function SignInPage() {
   return (
     <>
+      <style>{`.cl-socialButtonsBlockButton { width: 100% !important; }`}</style>
       <div className="mb-8 text-center">
         <h1
           className="text-3xl tracking-tight"
@@ -23,33 +24,32 @@ export default function SignInPage() {
           Client Portal
         </p>
       </div>
-      <div style={{ width: "100%", maxWidth: "400px", margin: "auto" }}>
-      <SignIn
-        appearance={{
-          variables: {
-            colorPrimary: "#5F8575",
-            colorBackground: "#EDECEA",
-            colorInputBackground: "#F5F4EF",
-            colorInputText: "#1A1A1A",
-            colorText: "#1A1A1A",
-            colorTextSecondary: "#4A4A4A",
-            borderRadius: "6px",
-            fontFamily: "var(--font-dm-sans), system-ui, sans-serif",
-          },
-          elements: {
-            card: "shadow-none border",
-            rootBox: "w-full max-w-sm",
-            socialButtonsBlockButton__apple: { display: "none" },
-            socialButtonsIconButton__apple: { display: "none" },
-            socialButtonsBlock: {
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "stretch",
+      <div style={{ width: "100%", maxWidth: "400px", margin: "0 auto" }}>
+        <SignIn
+          appearance={{
+            variables: {
+              colorPrimary: "#5F8575",
+              colorBackground: "#EDECEA",
+              colorInputBackground: "#F5F4EF",
+              colorInputText: "#1A1A1A",
+              colorText: "#1A1A1A",
+              colorTextSecondary: "#4A4A4A",
+              borderRadius: "6px",
+              fontFamily: "var(--font-dm-sans), system-ui, sans-serif",
             },
-            socialButtonsBlockButton: { width: "100%", maxWidth: "100%" },
-          },
-        }}
-      />
+            elements: {
+              card: "shadow-none border",
+              rootBox: "w-full max-w-sm",
+              socialButtonsBlockButton__apple: { display: "none" },
+              socialButtonsIconButton__apple: { display: "none" },
+              socialButtonsBlock: {
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "stretch",
+              },
+            },
+          }}
+        />
       </div>
     </>
   );
