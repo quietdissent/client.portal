@@ -41,6 +41,8 @@ export default function SignInPage() {
           elements: {
             card: "shadow-none border",
             rootBox: "w-full max-w-sm",
+            socialButtonsBlockButton__apple: { display: "none" },
+            socialButtonsIconButton__apple: { display: "none" },
           },
         }}
       />
