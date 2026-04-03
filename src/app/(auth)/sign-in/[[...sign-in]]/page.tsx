@@ -3,7 +3,7 @@ import { SignIn } from "@clerk/nextjs";
 export default function SignInPage() {
   return (
     <>
-      <style>{`.cl-socialButtonsBlockButton { width: 100% !important; }`}</style>
+      <style>{`.cl-socialButtonsBlockButton, .cl-socialButtonsBlockButton:hover { width: 100% !important; box-sizing: border-box !important; }`}</style>
       <div className="mb-8 text-center">
         <h1
           className="text-3xl tracking-tight"
@@ -39,7 +39,6 @@ export default function SignInPage() {
             },
             elements: {
               card: "shadow-none border",
-              rootBox: "w-full max-w-sm",
               socialButtonsBlockButton__apple: { display: "none" },
               socialButtonsIconButton__apple: { display: "none" },
               socialButtonsBlock: {
@@ -47,6 +46,7 @@ export default function SignInPage() {
                 flexDirection: "column",
                 alignItems: "stretch",
               },
+              socialButtonsBlockButton: { width: "100%", boxSizing: "border-box" },
             },
           }}
         />
