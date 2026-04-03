@@ -4,10 +4,7 @@ import { SignUp } from "@clerk/nextjs";
 // It is not linked from anywhere in the UI.
 export default function SignUpPage() {
   return (
-    <div
-      className="min-h-screen flex flex-col items-center justify-center px-4"
-      style={{ backgroundColor: "#F5F4EF" }}
-    >
+    <>
       <div className="mb-8 text-center">
         <h1
           className="text-3xl tracking-tight"
@@ -46,6 +43,6 @@ export default function SignUpPage() {
           },
         }}
       />
-    </div>
+    </>
   );
 }

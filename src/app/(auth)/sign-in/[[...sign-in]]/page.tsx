@@ -2,10 +2,7 @@ import { SignIn } from "@clerk/nextjs";
 
 export default function SignInPage() {
   return (
-    <div
-      className="min-h-screen flex flex-col items-center justify-center px-4"
-      style={{ backgroundColor: "#F5F4EF" }}
-    >
+    <>
       <div className="mb-8 text-center">
         <h1
           className="text-3xl tracking-tight"
@@ -43,9 +40,17 @@ export default function SignInPage() {
             rootBox: "w-full max-w-sm",
             socialButtonsBlockButton__apple: { display: "none" },
             socialButtonsIconButton__apple: { display: "none" },
+            socialButtonsBlock: {
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "stretch",
+            },
+            socialButtonsBlockButton: {
+              width: "100%",
+            },
           },
         }}
       />
-    </div>
+    </>
   );
 }
