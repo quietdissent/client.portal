@@ -43,6 +43,8 @@ export default function SignInPage() {
             rootBox: "w-full max-w-sm",
             socialButtonsBlockButton__apple: { display: "none" },
             socialButtonsIconButton__apple: { display: "none" },
+            socialButtonsBlock: { display: "flex", flexDirection: "column" },
+            socialButtonsBlockButton: { width: "100%" },
           },
         }}
       />
