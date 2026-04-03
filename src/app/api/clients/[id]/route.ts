@@ -1,4 +1,4 @@
-import { auth } from "@clerk/nextjs/server";
+import { auth, currentUser } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 import { createServiceClient } from "@/lib/supabase";
 import type { ClientStatus, EngagementType } from "@/lib/types";
@@ -8,8 +8,9 @@ type Params = { params: Promise<{ id: string }> };
 // GET /api/clients/[id] — admin: get single client with docs, messages, events
 export async function GET(_req: Request, { params }: Params) {
   const { id } = await params;
-  const { userId, sessionClaims } = await auth();
-  const role = (sessionClaims?.publicMetadata as { role?: string })?.role;
+  const { userId } = await auth();
+  const user = await currentUser();
+  const role = (user?.publicMetadata as { role?: string })?.role;
 
   if (!userId) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
@@ -53,8 +54,8 @@ export async function GET(_req: Request, { params }: Params) {
 // PATCH /api/clients/[id] — admin: update client
 export async function PATCH(req: Request, { params }: Params) {
   const { id } = await params;
-  const { sessionClaims } = await auth();
-  const role = (sessionClaims?.publicMetadata as { role?: string })?.role;
+  const user = await currentUser();
+  const role = (user?.publicMetadata as { role?: string })?.role;
   if (role !== "admin") return NextResponse.json({ error: "Forbidden" }, { status: 403 });
 
   const body = (await req.json()) as Partial<{

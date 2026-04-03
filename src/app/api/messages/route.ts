@@ -4,10 +4,11 @@ import { createServiceClient } from "@/lib/supabase";
 
 // GET /api/messages?client_id=xxx
 export async function GET(req: Request) {
-  const { userId, sessionClaims } = await auth();
+  const { userId } = await auth();
   if (!userId) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  const role = (sessionClaims?.publicMetadata as { role?: string })?.role;
+  const user = await currentUser();
+  const role = (user?.publicMetadata as { role?: string })?.role;
   const { searchParams } = new URL(req.url);
   const clientId = searchParams.get("client_id");
 
@@ -61,10 +62,11 @@ export async function GET(req: Request) {
 
 // POST /api/messages
 export async function POST(req: Request) {
-  const { userId, sessionClaims } = await auth();
+  const { userId } = await auth();
   if (!userId) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  const role = (sessionClaims?.publicMetadata as { role?: string })?.role;
+  const user = await currentUser();
+  const role = (user?.publicMetadata as { role?: string })?.role;
   const body = (await req.json()) as {
     content: string;
     client_id?: string; // required for admin
@@ -74,7 +76,6 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "content is required" }, { status: 400 });
   }
 
-  const user = await currentUser();
   const senderName =
     user?.fullName ||
     user?.emailAddresses[0]?.emailAddress ||

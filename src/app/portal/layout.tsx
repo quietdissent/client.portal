@@ -1,4 +1,4 @@
-import { auth } from "@clerk/nextjs/server";
+import { currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { Sidebar } from "@/components/portal/Sidebar";
 
@@ -7,11 +7,11 @@ export default async function PortalLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const { userId, sessionClaims } = await auth();
+  const user = await currentUser();
 
-  if (!userId) redirect("/sign-in");
+  if (!user) redirect("/sign-in");
 
-  const role = (sessionClaims?.publicMetadata as { role?: string })?.role;
+  const role = (user.publicMetadata as { role?: string })?.role;
   if (role === "admin") redirect("/admin/clients");
 
   return (

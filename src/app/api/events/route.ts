@@ -1,14 +1,15 @@
-import { auth } from "@clerk/nextjs/server";
+import { auth, currentUser } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 import { createServiceClient } from "@/lib/supabase";
 import type { EventStatus } from "@/lib/types";
 
 // GET /api/events?client_id=xxx
 export async function GET(req: Request) {
-  const { userId, sessionClaims } = await auth();
+  const { userId } = await auth();
   if (!userId) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  const role = (sessionClaims?.publicMetadata as { role?: string })?.role;
+  const user = await currentUser();
+  const role = (user?.publicMetadata as { role?: string })?.role;
   const { searchParams } = new URL(req.url);
   const clientId = searchParams.get("client_id");
 
@@ -45,8 +46,8 @@ export async function GET(req: Request) {
 
 // POST /api/events — admin only
 export async function POST(req: Request) {
-  const { sessionClaims } = await auth();
-  const role = (sessionClaims?.publicMetadata as { role?: string })?.role;
+  const user = await currentUser();
+  const role = (user?.publicMetadata as { role?: string })?.role;
   if (role !== "admin") return NextResponse.json({ error: "Forbidden" }, { status: 403 });
 
   const body = (await req.json()) as {

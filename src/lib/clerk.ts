@@ -3,8 +3,8 @@ import { auth, currentUser } from "@clerk/nextjs/server";
 export type UserRole = "admin" | "client";
 
 export async function getRole(): Promise<UserRole | null> {
-  const { sessionClaims } = await auth();
-  const role = (sessionClaims?.publicMetadata as { role?: string })?.role;
+  const user = await currentUser();
+  const role = (user?.publicMetadata as { role?: string })?.role;
   if (role === "admin" || role === "client") return role;
   return null;
 }

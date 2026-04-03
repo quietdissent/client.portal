@@ -1,12 +1,12 @@
-import { auth, clerkClient } from "@clerk/nextjs/server";
+import { currentUser, clerkClient } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 import { createServiceClient } from "@/lib/supabase";
 import type { EngagementType, ClientStatus } from "@/lib/types";
 
 // GET /api/clients — admin: list all clients
 export async function GET() {
-  const { sessionClaims } = await auth();
-  const role = (sessionClaims?.publicMetadata as { role?: string })?.role;
+  const user = await currentUser();
+  const role = (user?.publicMetadata as { role?: string })?.role;
   if (role !== "admin") {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
@@ -23,8 +23,8 @@ export async function GET() {
 
 // POST /api/clients — admin: create client record after invite
 export async function POST(req: Request) {
-  const { sessionClaims } = await auth();
-  const role = (sessionClaims?.publicMetadata as { role?: string })?.role;
+  const user = await currentUser();
+  const role = (user?.publicMetadata as { role?: string })?.role;
   if (role !== "admin") {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
