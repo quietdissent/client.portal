@@ -222,6 +222,13 @@ export default function SignInPage() {
               {error}
             </p>
           )}
+
+          <div className="flex items-center justify-center gap-1.5 pt-4 border-t border-[#D8D6D1]" style={{ marginTop: '16px' }}>
+            <svg width="14" height="14" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12.5 0L23.5 5.5V12.5C23.5 18.5 18.5 23.5 12.5 25C6.5 23.5 1.5 18.5 1.5 12.5V5.5L12.5 0Z" fill="#6C47FF"/>
+            </svg>
+            <span className="text-xs text-[#6b7280]">Secured by Clerk</span>
+          </div>
         </div>
       </div>
     </>

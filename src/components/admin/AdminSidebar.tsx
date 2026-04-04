@@ -86,7 +86,14 @@ export function AdminSidebar() {
           <UserButton
             appearance={{
               variables: { colorPrimary: "#5F8575" },
-              elements: { userButtonBox: "w-full justify-start" },
+              elements: {
+                userButtonTrigger: "focus:shadow-none",
+                userButtonBox: "flex-row-reverse gap-2",
+                userButtonOuterIdentifier:
+                  "text-[#F5F4EF] text-sm font-normal truncate max-w-[120px]",
+                userButtonAvatarBox:
+                  "ring-1 ring-white/30 rounded-full shrink-0",
+              },
             }}
             showName
           />
