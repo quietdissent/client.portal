@@ -46,8 +46,7 @@ export async function POST(req: Request) {
   )?.email_address ?? emailAddresses[0]?.email_address;
 
   if (!primaryEmail) {
-    console.error("user.created event has no email address", clerkUserId);
-    return NextResponse.json({ error: "No email on user" }, { status: 500 });
+    return NextResponse.json({ message: "No email, skipping" });
   }
 
   try {
