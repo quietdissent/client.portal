@@ -57,7 +57,7 @@ export default async function SchedulePage() {
           </h2>
           <div className="border border-[#D8D6D1] rounded-md overflow-hidden bg-[#EDECEA]">
             <iframe
-              src={calUrl}
+              src={`${calUrl}?theme=light`}
               className="w-full h-[600px]"
               title="Book a call with Bailey"
               frameBorder="0"
