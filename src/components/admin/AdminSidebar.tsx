@@ -90,7 +90,7 @@ export function AdminSidebar() {
                 userButtonTrigger: "focus:shadow-none",
                 userButtonBox: "flex-row-reverse gap-2",
                 userButtonOuterIdentifier:
-                  "text-[#F5F4EF] text-sm font-normal truncate max-w-[120px]",
+                  "text-white text-sm font-normal truncate max-w-[120px]",
                 userButtonAvatarBox:
                   "ring-1 ring-white/30 rounded-full shrink-0",
               },
