@@ -86,8 +86,8 @@ export default function SignInPage() {
     setError('');
     const { error: err } = await signIn.sso({
       strategy: 'oauth_google',
-      redirectUrl: window.location.origin + '/sso-callback',
-      redirectCallbackUrl: '/portal/dashboard',
+      redirectCallbackUrl: window.location.origin + '/sso-callback',
+      redirectUrl: '/portal/dashboard',
     });
     if (err) {
       setError(err.longMessage ?? err.message);
