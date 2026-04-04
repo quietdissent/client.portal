@@ -8,13 +8,8 @@ export default function SSOCallbackPage() {
 
   return (
     <HandleSSOCallback
-      navigateToApp={(params) => {
-        const destination = params.decorateUrl('/portal/dashboard');
-        if (destination.startsWith('http')) {
-          window.location.href = destination;
-        } else {
-          router.push(destination);
-        }
+      navigateToApp={() => {
+        router.push('/portal/dashboard');
       }}
       navigateToSignIn={() => router.push('/sign-in')}
       navigateToSignUp={() => router.push('/sign-up')}
