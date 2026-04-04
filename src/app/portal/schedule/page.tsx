@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { createServiceClient } from "@/lib/supabase";
 import type { Client, Event } from "@/lib/types";
 import { Badge } from "@/components/ui/Badge";
+import CalEmbed from "@/components/portal/CalEmbed";
 
 async function getData(clerkUserId: string) {
   const db = createServiceClient();
@@ -56,12 +57,7 @@ export default async function SchedulePage() {
             Book a Call
           </h2>
           <div className="border border-[#D8D6D1] rounded-md overflow-hidden bg-[#EDECEA]">
-            <iframe
-              src={`${calUrl}?theme=light`}
-              className="w-full h-[600px]"
-              title="Book a call with Bailey"
-              frameBorder="0"
-            />
+            <CalEmbed />
           </div>
         </div>
       ) : (
