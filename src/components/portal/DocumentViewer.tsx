@@ -62,7 +62,7 @@ export default function DocumentViewer({ document: doc, typeLabel }: Props) {
             <iframe
               srcDoc={doc.html_content}
               className="w-full rounded-md border-0"
-              style={{ height: "700px" }}
+              style={{ height: "80vh" }}
               title={doc.title}
               sandbox="allow-scripts allow-same-origin"
             />
