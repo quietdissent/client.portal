@@ -1,5 +1,4 @@
 "use client";
-
 import { useEffect } from "react";
 
 export default function CalEmbed() {
@@ -7,24 +6,37 @@ export default function CalEmbed() {
     process.env.NEXT_PUBLIC_CAL_URL?.replace("https://cal.com/", "") ?? "quiet-dissent";
 
   useEffect(() => {
-    const script = document.createElement("script");
-    script.src = "https://app.cal.com/embed/embed.js";
-    script.async = true;
-    script.onload = () => {
-      const Cal = (window as unknown as { Cal?: Function }).Cal;
-      if (!Cal) return;
-      Cal("init", { origin: "https://cal.com" });
-      Cal("inline", {
-        elementOrSelector: "#cal-embed",
-        calLink,
-        theme: "light",
-      });
-    };
-    document.body.appendChild(script);
+    (function (C: any, A: string, L: string) {
+      let p = function (a: any, ar: any) { a.q.push(ar); };
+      let d = C.document;
+      C.Cal = C.Cal || function (...args: any[]) {
+        let cal = C.Cal;
+        if (!cal.loaded) {
+          cal.ns = {};
+          cal.q = cal.q || [];
+          let s = d.createElement("script");
+          s.src = A;
+          d.head.appendChild(s);
+          cal.loaded = true;
+        }
+        if (args[0] === L) {
+          const api = function (...a: any[]) { p(api, a); };
+          api.q = [] as any[];
+          cal.ns[args[1]] = api;
+          p(cal, ["initNamespace", args[1]]);
+          return;
+        }
+        p(cal, args);
+      };
+    })(window, "https://app.cal.com/embed/embed.js", "init");
 
-    return () => {
-      document.body.removeChild(script);
-    };
+    const Cal = (window as any).Cal;
+    Cal("init", { origin: "https://cal.com" });
+    Cal("inline", {
+      elementOrSelector: "#cal-embed",
+      calLink,
+      theme: "light",
+    });
   }, [calLink]);
 
   return <div id="cal-embed" style={{ width: "100%", height: "600px" }} />;
