@@ -18,13 +18,16 @@ export function OnboardingGate({
   clientId,
 }: Props) {
   const welcomeKey = `qd_welcome_seen_${clientId}`;
-  const [step, setStep] = useState<"welcome" | "agreement">(() => {
-    if (typeof window !== "undefined" && localStorage.getItem(welcomeKey)) {
-      return "agreement";
-    }
-    return "welcome";
-  });
+  const [mounted, setMounted] = useState(false);
+  const [step, setStep] = useState<"welcome" | "agreement">("welcome");
   const [signed, setSigned] = useState(false);
+
+  useEffect(() => {
+    if (localStorage.getItem(welcomeKey)) {
+      setStep("agreement");
+    }
+    setMounted(true);
+  }, [welcomeKey]);
 
   useEffect(() => {
     function handleMessage(event: MessageEvent) {
@@ -43,6 +46,7 @@ export function OnboardingGate({
     return () => window.removeEventListener("message", handleMessage);
   }, [agreementDocId]);
 
+  if (!mounted) return null;
   if (agreementSigned || signed) return null;
 
   function handleContinue() {
@@ -66,7 +70,7 @@ export function OnboardingGate({
           <iframe
             srcDoc={welcomeHtml}
             style={{ width: "100%", flex: 1, border: "none" }}
-            sandbox="allow-scripts allow-same-origin"
+            sandbox="allow-scripts"
           />
           <div
             style={{
@@ -98,7 +102,7 @@ export function OnboardingGate({
         <iframe
           srcDoc={agreementHtml}
           style={{ width: "100%", height: "100vh", border: "none" }}
-          sandbox="allow-scripts allow-same-origin"
+          sandbox="allow-scripts"
         />
       )}
     </div>
