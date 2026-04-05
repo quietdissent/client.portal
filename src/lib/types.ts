@@ -39,6 +39,7 @@ export interface Document {
   html_content: string | null;
   is_signed: boolean;
   signed_at: string | null;
+  signer_name: string | null;
   created_at: string;
 }
 

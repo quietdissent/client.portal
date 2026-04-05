@@ -18,6 +18,14 @@ export default function DocumentViewer({ document: doc, typeLabel }: Props) {
     year: "numeric",
   });
 
+  const signedPatch = doc.is_signed
+    ? `<script>document.addEventListener('DOMContentLoaded',function(){var f=document.getElementById('client-sign-form');var s=document.getElementById('client-signed-display');var n=document.getElementById('signed-name-display');var st=document.getElementById('sb-status');if(f)f.style.display='none';if(s)s.style.display='block';if(n&&'${doc.signer_name||''}')n.textContent='${doc.signer_name||''}';if(st){st.textContent='Signed';st.classList.add('signed');}});<\/script></body>`
+    : null;
+
+  const displayHtml = signedPatch && doc.html_content
+    ? doc.html_content.replace('</body>', signedPatch)
+    : doc.html_content;
+
   return (
     <div className="border border-[#D8D6D1] rounded-md overflow-hidden bg-[#EDECEA]">
       {/* Row */}
@@ -43,6 +51,11 @@ export default function DocumentViewer({ document: doc, typeLabel }: Props) {
           </div>
         </div>
         <div className="flex items-center gap-3">
+          {doc.is_signed && (
+              <span style={{ fontFamily: "var(--font-dm-mono, monospace)", fontSize: "9px", letterSpacing: "0.12em", textTransform: "uppercase" as const, color: "#5F8575" }}>
+                Signed
+              </span>
+            )}
           <Badge variant="muted">{typeLabel}</Badge>
           <span
             className="text-[#7A7875] transition-transform duration-200"
@@ -60,7 +73,7 @@ export default function DocumentViewer({ document: doc, typeLabel }: Props) {
         <div className="border-t border-[#D8D6D1]">
           {doc.html_content ? (
             <iframe
-              srcDoc={doc.html_content}
+              srcDoc={displayHtml ?? undefined}
               className="w-full rounded-md border-0"
               style={{ height: "80vh" }}
               title={doc.title}
