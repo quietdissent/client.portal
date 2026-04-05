@@ -59,9 +59,12 @@ export default function DocumentViewer({ document: doc, typeLabel }: Props) {
       {open && (
         <div className="border-t border-[#D8D6D1]">
           {doc.html_content ? (
-            <div
-              className="p-6 prose prose-sm max-w-none text-[#1A1A1A]"
-              dangerouslySetInnerHTML={{ __html: doc.html_content }}
+            <iframe
+              srcDoc={doc.html_content}
+              className="w-full rounded-md border-0"
+              style={{ height: "700px" }}
+              title={doc.title}
+              sandbox="allow-scripts allow-same-origin"
             />
           ) : doc.storage_path ? (
             <div className="p-4">
@@ -79,3 +82,4 @@ export default function DocumentViewer({ document: doc, typeLabel }: Props) {
     </div>
   );
 }
+
