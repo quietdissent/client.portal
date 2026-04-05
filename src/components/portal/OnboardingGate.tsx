@@ -102,7 +102,7 @@ export function OnboardingGate({
         <iframe
           srcDoc={agreementHtml}
           style={{ width: "100%", height: "100vh", border: "none" }}
-          sandbox="allow-scripts"
+          sandbox="allow-scripts allow-same-origin"
         />
       )}
     </div>
