@@ -1,0 +1,106 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+
+interface Props {
+  welcomeHtml: string;
+  agreementHtml: string;
+  agreementDocId: string;
+  agreementSigned: boolean;
+  clientId: string;
+}
+
+export function OnboardingGate({
+  welcomeHtml,
+  agreementHtml,
+  agreementDocId,
+  agreementSigned,
+  clientId,
+}: Props) {
+  const welcomeKey = `qd_welcome_seen_${clientId}`;
+  const [step, setStep] = useState<"welcome" | "agreement">(() => {
+    if (typeof window !== "undefined" && localStorage.getItem(welcomeKey)) {
+      return "agreement";
+    }
+    return "welcome";
+  });
+  const [signed, setSigned] = useState(false);
+
+  useEffect(() => {
+    function handleMessage(event: MessageEvent) {
+      if (event.data?.type === "qd-agreement-signed") {
+        const { name, company } = event.data as { name?: string; company?: string };
+        fetch(`/api/documents/${agreementDocId}/sign`, {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ signer_name: name, signer_company: company }),
+        }).then((res) => {
+          if (res.ok) setSigned(true);
+        });
+      }
+    }
+    window.addEventListener("message", handleMessage);
+    return () => window.removeEventListener("message", handleMessage);
+  }, [agreementDocId]);
+
+  if (agreementSigned || signed) return null;
+
+  function handleContinue() {
+    localStorage.setItem(welcomeKey, "1");
+    setStep("agreement");
+  }
+
+  return (
+    <div
+      style={{
+        position: "fixed",
+        inset: 0,
+        zIndex: 50,
+        backgroundColor: "#F5F4EF",
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
+      {step === "welcome" ? (
+        <>
+          <iframe
+            srcDoc={welcomeHtml}
+            style={{ width: "100%", flex: 1, border: "none" }}
+            sandbox="allow-scripts allow-same-origin"
+          />
+          <div
+            style={{
+              padding: "16px 24px",
+              display: "flex",
+              justifyContent: "flex-end",
+              backgroundColor: "#F5F4EF",
+              borderTop: "1px solid rgba(0,0,0,0.08)",
+            }}
+          >
+            <button
+              onClick={handleContinue}
+              style={{
+                padding: "10px 24px",
+                backgroundColor: "#1a1a1a",
+                color: "#fff",
+                border: "none",
+                borderRadius: "6px",
+                fontSize: "14px",
+                cursor: "pointer",
+                fontFamily: "inherit",
+              }}
+            >
+              Continue to Agreement →
+            </button>
+          </div>
+        </>
+      ) : (
+        <iframe
+          srcDoc={agreementHtml}
+          style={{ width: "100%", height: "100vh", border: "none" }}
+          sandbox="allow-scripts allow-same-origin"
+        />
+      )}
+    </div>
+  );
+}
