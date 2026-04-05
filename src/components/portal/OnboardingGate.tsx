@@ -103,7 +103,7 @@ export function OnboardingGate({
       ) : (
         <iframe
           srcDoc={patchedAgreementHtml}
-          style={{ width: "100%", height: "100vh", border: "none" }}
+          style={{ width: "100%", flex: 1, border: "none" }}
           sandbox="allow-scripts allow-same-origin"
         />
       )}
