@@ -54,6 +54,8 @@ export function OnboardingGate({
     setStep("agreement");
   }
 
+  const patchedAgreementHtml = agreementHtml.replace('</body>', '<script>document.addEventListener(\'click\',function(e){var a=e.target.closest(\'a[href^="#"]\');if(!a)return;e.preventDefault();var id=a.getAttribute(\'href\').slice(1);var target=document.getElementById(id);if(target)target.scrollIntoView({behavior:\'smooth\'});});<\/script></body>');
+
   return (
     <div
       style={{
@@ -100,7 +102,7 @@ export function OnboardingGate({
         </>
       ) : (
         <iframe
-          srcDoc={agreementHtml}
+          srcDoc={patchedAgreementHtml}
           style={{ width: "100%", height: "100vh", border: "none" }}
           sandbox="allow-scripts allow-same-origin"
         />
