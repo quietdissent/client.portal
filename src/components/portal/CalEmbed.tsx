@@ -39,5 +39,5 @@ export default function CalEmbed() {
     });
   }, [calLink]);
 
-  return <div id="cal-embed" style={{ width: "100%", height: "600px" }} />;
+  return <div id="cal-embed" style={{ width: "100%", height: "800px" }} />;
 }
